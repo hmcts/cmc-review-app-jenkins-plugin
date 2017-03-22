@@ -1,0 +1,15 @@
+plugins {
+  id "org.jenkins-ci.jpi" version "0.16.0"
+}
+
+group = "org.jenkins-ci.plugins"
+version = "0.0.1-SNAPSHOT"    // Or whatever your version is.
+description = "A description of your plugin"
+jenkinsPlugin {
+    coreVersion = "2.47"                                               // Version of Jenkins core this plugin depends on.
+    displayName = "Review app"                // Human-readable name of plugin.
+    url = "http://wiki.jenkins-ci.org/display/JENKINS/SomePluginPage"   // URL for plugin on Jenkins wiki or elsewhere.
+    gitHubUrl = "http://git.reform/cmc/review-app-jenkins-plugin"              // Plugin URL on GitHub. Optional.
+    shortName = "review-app"                                           // Plugin ID, defaults to the project name without trailing '-plugin'
+}
+
