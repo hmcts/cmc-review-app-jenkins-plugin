@@ -32,8 +32,16 @@ public class ReviewAppHandler {
     }
 
     public void shutdownReviewAppFor(GHEventPayload.PullRequest pullRequest) {
-        String reviewAppId = pullRequest.getPullRequest().getHead().getLabel();
+        String reviewAppId = extractReviewAppId(pullRequest);
         shutdownReviewApp(reviewAppId);
+    }
+
+    public String extractReviewAppId(GHEventPayload.PullRequest pullRequest) {
+        int pullRequestNumber = pullRequest.getNumber();
+        if (pullRequestNumber <= 0) {
+            throw new IllegalArgumentException("Pull request number should be a positive integer");
+        }
+        return String.format("PR-%d", pullRequestNumber);
     }
 
     public void shutdownReviewApp(String reviewAppId) {
