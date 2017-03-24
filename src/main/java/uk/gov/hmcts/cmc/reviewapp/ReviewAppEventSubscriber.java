@@ -56,9 +56,9 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     protected void onEvent(final GHSubscriberEvent event) {
         GHEventPayload.PullRequest pullRequest = parse(event);
         if (handler.supports(pullRequest)) {
-            ACL.impersonate(ACL.SYSTEM, () -> {
-                handler.shutdownReviewAppFor(pullRequest);
-            });
+            ACL.impersonate(ACL.SYSTEM, () ->
+                    handler.shutdownReviewAppFor(pullRequest)
+            );
         } else {
             LOGGER.debug("Unsupported Pull Request action {}", pullRequest.getAction());
         }
