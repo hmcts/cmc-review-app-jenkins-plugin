@@ -15,8 +15,9 @@ public class ReviewAppHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewAppHandler.class);
 
-    private static final String SHUTDOWN_JOB_NAME = "cmc/review-app-pulveriser/master";
     private static final String CLOSED_EVENT = "closed";
+
+    private AppShutdownJob appShutdownJob = new AppShutdownJob(Jenkins.getInstance());
 
     public boolean supports(GHEventPayload.PullRequest pullRequest) {
         return supports(pullRequest.getAction());
@@ -46,14 +47,10 @@ public class ReviewAppHandler {
 
     public void shutdownReviewApp(String reviewAppId) {
         LOGGER.info("Shutting down {}", reviewAppId);
-        Job job = (Job) Jenkins.getInstance().getItemByFullName(SHUTDOWN_JOB_NAME);
-        if (job == null) {
-            throw new RuntimeException("Cannot find job:" + SHUTDOWN_JOB_NAME);
-        }
         ParametersAction paramsAction = new ParametersAction(Arrays.asList(
                 new StringParameterValue("reviewAppName", reviewAppId)
         ));
-        ParameterizedJobMixIn.scheduleBuild2(job,0, paramsAction);
+        ParameterizedJobMixIn.scheduleBuild2(appShutdownJob.get(),0, paramsAction);
     }
 
 }
