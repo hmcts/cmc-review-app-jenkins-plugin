@@ -1,8 +1,19 @@
 package uk.gov.hmcts.cmc.reviewapp;
 
+import hudson.model.Job;
+import hudson.model.ParametersAction;
+import hudson.model.StringParameterValue;
+import jenkins.model.Jenkins;
+import jenkins.model.ParameterizedJobMixIn;
 import org.kohsuke.github.GHEventPayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 public class ReviewAppHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReviewAppHandler.class);
 
     private static final String CLOSED_EVENT = "closed";
 
@@ -17,6 +28,20 @@ public class ReviewAppHandler {
      */
     public boolean supports(String subscriberEventAction) {
         return CLOSED_EVENT.equals(subscriberEventAction);
+    }
+
+    public void shutdownReviewAppFor(GHEventPayload.PullRequest pullRequest) {
+        String reviewAppId = pullRequest.getPullRequest().getHead().getLabel();
+        LOGGER.info("Shutting down {}", reviewAppId);
+        String jobName = "cmc/review-app-pulveriser/master";
+        Job job = (Job) Jenkins.getInstance().getItemByFullName(jobName);
+        if (job == null) {
+            throw new RuntimeException("Cannot find job:" + jobName);
+        }
+        ParametersAction paramsAction = new ParametersAction(Arrays.asList(
+                new StringParameterValue("reviewAppName", reviewAppId)
+        ));
+        ParameterizedJobMixIn.scheduleBuild2(job,0, paramsAction);
     }
 
 }
