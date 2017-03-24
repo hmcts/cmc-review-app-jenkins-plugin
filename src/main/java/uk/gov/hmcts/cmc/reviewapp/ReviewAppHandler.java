@@ -33,6 +33,10 @@ public class ReviewAppHandler {
 
     public void shutdownReviewAppFor(GHEventPayload.PullRequest pullRequest) {
         String reviewAppId = pullRequest.getPullRequest().getHead().getLabel();
+        shutdownReviewApp(reviewAppId);
+    }
+
+    public void shutdownReviewApp(String reviewAppId) {
         LOGGER.info("Shutting down {}", reviewAppId);
         Job job = (Job) Jenkins.getInstance().getItemByFullName(SHUTDOWN_JOB_NAME);
         if (job == null) {
