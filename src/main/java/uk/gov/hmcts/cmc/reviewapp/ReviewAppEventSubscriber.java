@@ -4,16 +4,12 @@ import com.cloudbees.jenkins.GitHubPushTrigger;
 import hudson.Extension;
 import hudson.model.Item;
 
-import java.io.IOException;
-import java.io.StringReader;
-
 import hudson.security.ACL;
 import org.jenkinsci.plugins.github.extension.GHSubscriberEvent;
 import org.jenkinsci.plugins.github.extension.GHEventsSubscriber;
 import org.jenkinsci.plugins.github.webhook.subscriber.DefaultPushGHEventSubscriber;
 import org.kohsuke.github.GHEvent;
 import org.kohsuke.github.GHEventPayload;
-import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +18,7 @@ import java.util.Set;
 import static com.google.common.collect.Sets.immutableEnumSet;
 import static org.jenkinsci.plugins.github.util.JobInfoHelpers.withTrigger;
 import static org.kohsuke.github.GHEvent.PULL_REQUEST;
+import static uk.gov.hmcts.cmc.reviewapp.utils.PayloadParser.parse;
 
 /**
  * By default this plugin interested in push events only when job uses {@link GitHubPushTrigger}
@@ -54,7 +51,7 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
      */
     @Override
     protected void onEvent(final GHSubscriberEvent event) {
-        GHEventPayload.PullRequest pullRequest = parse(event);
+        GHEventPayload.PullRequest pullRequest = parse(event.getPayload());
         if (handler.supports(pullRequest)) {
             ACL.impersonate(ACL.SYSTEM, () ->
                     handler.shutdownReviewAppFor(pullRequest)
@@ -64,12 +61,4 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
         }
     }
 
-    private GHEventPayload.PullRequest parse(GHSubscriberEvent event) {
-        try {
-            return GitHub.offline().parseEventPayload(new StringReader(event.getPayload()), GHEventPayload.PullRequest.class);
-        } catch (IOException e) {
-            LOGGER.error("Received malformed PullRequestEvent: " + event.getPayload(), e);
-            throw new RuntimeException(e);
-        }
-    }
 }
