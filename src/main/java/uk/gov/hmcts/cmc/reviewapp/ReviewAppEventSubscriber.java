@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.immutableEnumSet;
-import static org.jenkinsci.plugins.github.util.JobInfoHelpers.triggerFrom;
 import static org.jenkinsci.plugins.github.util.JobInfoHelpers.withTrigger;
 import static org.kohsuke.github.GHEvent.PULL_REQUEST;
 
@@ -41,6 +40,8 @@ import static org.kohsuke.github.GHEvent.PULL_REQUEST;
 public class ReviewAppEventSubscriber extends GHEventsSubscriber {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPushGHEventSubscriber.class);
+
+    private ReviewAppHandler handler = new ReviewAppHandler();
 
     @Override
     protected boolean isApplicable(Item project) {
@@ -60,11 +61,11 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     @Override
     protected void onEvent(final GHSubscriberEvent event) {
         GHEventPayload.PullRequest pullRequest = parse(event);
-        String action = pullRequest.getAction();
-        String label = pullRequest.getPullRequest().getHead().getLabel();
-        LOGGER.info("PR {} changed to {}", label, action);
-        shutdownReviewApp(label);
-
+        if (handler.supports(pullRequest.getAction())) {
+            shutdownReviewApp(pullRequest.getPullRequest().getHead().getLabel());
+        } else {
+            LOGGER.debug("Unsupported Pull Request action {}", pullRequest.getAction());
+        }
     }
 
     private void shutdownReviewApp(String reviewAppId) {
