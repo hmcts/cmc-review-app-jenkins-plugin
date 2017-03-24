@@ -56,7 +56,7 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     /**
      * Calls {@link GitHubPushTrigger} in all projects to handle this hook
      *
-     * @param event   only PUSH event
+     * @param event only PUSH event
      */
     @Override
     protected void onEvent(final GHSubscriberEvent event) {

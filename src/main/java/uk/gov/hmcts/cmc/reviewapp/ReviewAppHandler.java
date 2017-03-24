@@ -10,6 +10,11 @@ public class ReviewAppHandler {
         return supports(pullRequest.getAction());
     }
 
+    /**
+     * @param subscriberEventAction Pull Request action name
+     * @return true if action is supported, false otherwise
+     * @see <a href="https://developer.github.com/v3/activity/events/types/#pullrequestevent">GitHub API docs</a>
+     */
     public boolean supports(String subscriberEventAction) {
         return CLOSED_EVENT.equals(subscriberEventAction);
     }
