@@ -1,22 +1,28 @@
 package uk.gov.hmcts.cmc.reviewapp;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kohsuke.github.GHEventPayload;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ReviewAppHandlerSupportsTest {
 
     private String[] OTHER_PULL_REQUEST_EVENTS = {
             "assigned", "unassigned", "review_requested", "review_request_removed",
             "labeled", "unlabeled", "opened", "edited", "reopened"};
 
-    private ReviewAppHandler handler;
+    @Mock
+    private GHEventPayload.PullRequest pullRequest;
 
-    @Before
-    public void beforeEachTest() {
-        handler = new ReviewAppHandler();
-    }
+    @Spy
+    private ReviewAppHandler handler;
 
     @Test
     public void shouldSupportClosedEvent() {
@@ -37,7 +43,14 @@ public class ReviewAppHandlerSupportsTest {
 
     @Test
     public void shouldNotSupportNullEvent() {
-        assertThat(handler.supports(null)).isFalse();
+        assertThat(handler.supports((String)null)).isFalse();
+    }
+
+    @Test
+    public void passingTheObjectShouldDelegateToStringMethod() {
+        when(pullRequest.getAction()).thenReturn("closed");
+        handler.supports(pullRequest);
+        verify(handler).supports("closed");
     }
 
 }

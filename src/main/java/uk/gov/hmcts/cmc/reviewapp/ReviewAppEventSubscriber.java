@@ -61,7 +61,7 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     @Override
     protected void onEvent(final GHSubscriberEvent event) {
         GHEventPayload.PullRequest pullRequest = parse(event);
-        if (handler.supports(pullRequest.getAction())) {
+        if (handler.supports(pullRequest)) {
             shutdownReviewApp(pullRequest.getPullRequest().getHead().getLabel());
         } else {
             LOGGER.debug("Unsupported Pull Request action {}", pullRequest.getAction());
