@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public class AppShutdownJob {
 
-    private static final String SHUTDOWN_JOB_NAME = "cmc/review-app-pulveriser/master";
+    private static final String SHUTDOWN_JOB_VARIABLE_NAME = "CMC_REVIEW_APP_SHUTDOWN_JOB_NAME";
+    private static final String SHUTDOWN_JOB_DEFAULT_NAME = "cmc/review-app-pulveriser/master";
 
     private Jenkins jenkins;
 
@@ -16,11 +17,22 @@ public class AppShutdownJob {
     }
 
     public Job get() {
+        String shutdownJobName = shutdownJobName();
         return Optional.ofNullable(
-                (Job) jenkins.getItemByFullName(SHUTDOWN_JOB_NAME)
+                (Job) jenkins.getItemByFullName(shutdownJobName)
         ).orElseThrow(
-                () -> new IllegalStateException("Cannot find job: " + SHUTDOWN_JOB_NAME)
+                () -> new IllegalStateException("Cannot find job: " + shutdownJobName)
         );
+    }
+
+    private String shutdownJobName() {
+        System.out.println(System.getenv());
+        String shutdownJobName = System.getenv(SHUTDOWN_JOB_VARIABLE_NAME);
+        if (shutdownJobName == null || shutdownJobName.isEmpty()) {
+            return SHUTDOWN_JOB_DEFAULT_NAME;
+        } else {
+            return shutdownJobName;
+        }
     }
 
 }
