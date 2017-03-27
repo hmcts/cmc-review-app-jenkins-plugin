@@ -1,6 +1,5 @@
 package uk.gov.hmcts.cmc.reviewapp;
 
-import hudson.model.Job;
 import hudson.model.ParametersAction;
 import hudson.model.StringParameterValue;
 import jenkins.model.Jenkins;
@@ -8,8 +7,6 @@ import jenkins.model.ParameterizedJobMixIn;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 public class ReviewAppHandler {
 
@@ -47,10 +44,14 @@ public class ReviewAppHandler {
 
     public void shutdownReviewApp(String reviewAppId) {
         LOGGER.info("Shutting down {}", reviewAppId);
-        ParametersAction paramsAction = new ParametersAction(Arrays.asList(
-                new StringParameterValue("reviewAppName", reviewAppId)
-        ));
-        ParameterizedJobMixIn.scheduleBuild2(appShutdownJob.get(),0, paramsAction);
+        ParameterizedJobMixIn
+            .scheduleBuild2(
+                appShutdownJob.get(),
+                0,
+                new ParametersAction(
+                        new StringParameterValue("reviewAppName", reviewAppId)
+                )
+            );
     }
 
 }
