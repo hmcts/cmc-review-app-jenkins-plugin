@@ -7,6 +7,7 @@ import jenkins.model.ParameterizedJobMixIn;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.hmcts.cmc.reviewapp.utils.ReviewAppHelper;
 
 public class ReviewAppHandler {
 
@@ -30,16 +31,7 @@ public class ReviewAppHandler {
     }
 
     public void shutdownReviewAppFor(GHEventPayload.PullRequest pullRequest) {
-        String reviewAppId = extractReviewAppId(pullRequest);
-        shutdownReviewApp(reviewAppId);
-    }
-
-    public String extractReviewAppId(GHEventPayload.PullRequest pullRequest) {
-        int pullRequestNumber = pullRequest.getNumber();
-        if (pullRequestNumber <= 0) {
-            throw new IllegalArgumentException("Pull request number should be a positive integer");
-        }
-        return String.format("PR-%d", pullRequestNumber);
+        shutdownReviewApp(ReviewAppHelper.getIdFrom(pullRequest));
     }
 
     public void shutdownReviewApp(String reviewAppId) {
