@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ReviewAppHandlerSupportsTest {
+public class PullRequestClosedHandlerSupportsTest {
 
     private String[] OTHER_PULL_REQUEST_EVENTS = {
             "assigned", "unassigned", "review_requested", "review_request_removed",
@@ -22,7 +22,7 @@ public class ReviewAppHandlerSupportsTest {
     private GHEventPayload.PullRequest pullRequest;
 
     @Spy
-    private ReviewAppHandler handler;
+    private PullRequestClosedHandler handler;
 
     @Test
     public void shouldSupportClosedEvent() {

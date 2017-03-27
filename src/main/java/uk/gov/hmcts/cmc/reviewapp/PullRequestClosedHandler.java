@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.cmc.reviewapp.utils.AppShutdownJob;
 import uk.gov.hmcts.cmc.reviewapp.utils.ReviewAppHelper;
 
-public class ReviewAppHandler {
+public class PullRequestClosedHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReviewAppHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PullRequestClosedHandler.class);
 
     private static final String CLOSED_EVENT = "closed";
 

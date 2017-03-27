@@ -28,7 +28,7 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewAppEventSubscriber.class);
 
-    private ReviewAppHandler handler = new ReviewAppHandler();
+    private PullRequestClosedHandler handler = new PullRequestClosedHandler();
 
     @Override
     protected boolean isApplicable(Item project) {
