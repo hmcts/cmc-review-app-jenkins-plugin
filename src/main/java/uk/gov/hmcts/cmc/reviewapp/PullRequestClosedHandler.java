@@ -15,22 +15,7 @@ public class PullRequestClosedHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PullRequestClosedHandler.class);
 
-    private static final String CLOSED_EVENT = "closed";
-
     private Job appShutdownJob = AppShutdownJob.get(Jenkins.getInstance());
-
-    public boolean supports(GHEventPayload.PullRequest pullRequest) {
-        return supports(pullRequest.getAction());
-    }
-
-    /**
-     * @param subscriberEventAction Pull Request action name
-     * @return true if action is supported, false otherwise
-     * @see <a href="https://developer.github.com/v3/activity/events/types/#pullrequestevent">GitHub API docs</a>
-     */
-    public boolean supports(String subscriberEventAction) {
-        return CLOSED_EVENT.equals(subscriberEventAction);
-    }
 
     public void shutdownReviewAppFor(GHEventPayload.PullRequest pullRequest) {
         shutdownReviewApp(ReviewAppHelper.getIdFrom(pullRequest));

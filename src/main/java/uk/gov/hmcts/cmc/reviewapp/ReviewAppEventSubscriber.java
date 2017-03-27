@@ -11,6 +11,7 @@ import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.immutableEnumSet;
@@ -48,10 +49,8 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     @Override
     protected void onEvent(final GHSubscriberEvent event) {
         GHEventPayload.PullRequest pullRequest = parse(event.getPayload());
-        if (handler.supports(pullRequest)) {
-            ACL.impersonate(ACL.SYSTEM, () ->
-                    handler.shutdownReviewAppFor(pullRequest)
-            );
+        if (Objects.equals(pullRequest.getAction(), "closed")) {
+            ACL.impersonate(ACL.SYSTEM, () -> handler.shutdownReviewAppFor(pullRequest));
         } else {
             LOGGER.debug("Unsupported Pull Request action {}", pullRequest.getAction());
         }
