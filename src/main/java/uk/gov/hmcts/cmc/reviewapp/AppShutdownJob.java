@@ -19,7 +19,7 @@ public class AppShutdownJob {
     public Job get() {
         String shutdownJobName = shutdownJobName();
         return Optional.ofNullable(
-                (Job) jenkins.getItemByFullName(shutdownJobName)
+                jenkins.getItemByFullName(shutdownJobName, Job.class)
         ).orElseThrow(
                 () -> new IllegalStateException("Cannot find job: " + shutdownJobName)
         );
