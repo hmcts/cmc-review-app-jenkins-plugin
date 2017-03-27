@@ -17,21 +17,15 @@ public class AppShutdownJob {
     }
 
     public Job get() {
-        String shutdownJobName = shutdownJobName();
+        String shutdownJobName =
+            Optional
+                .ofNullable(System.getenv(SHUTDOWN_JOB_VARIABLE_NAME))
+                .orElse(SHUTDOWN_JOB_DEFAULT_NAME);
+
         return Optional.ofNullable(
                 jenkins.getItemByFullName(shutdownJobName, Job.class)
         ).orElseThrow(
                 () -> new IllegalStateException("Cannot find job: " + shutdownJobName)
         );
     }
-
-    private String shutdownJobName() {
-        String shutdownJobName = System.getenv(SHUTDOWN_JOB_VARIABLE_NAME);
-        if (shutdownJobName == null || shutdownJobName.isEmpty()) {
-            return SHUTDOWN_JOB_DEFAULT_NAME;
-        } else {
-            return shutdownJobName;
-        }
-    }
-
 }
