@@ -1,5 +1,6 @@
 package uk.gov.hmcts.cmc.reviewapp;
 
+import hudson.model.Job;
 import hudson.model.ParametersAction;
 import hudson.model.StringParameterValue;
 import jenkins.model.Jenkins;
@@ -15,7 +16,7 @@ public class ReviewAppHandler {
 
     private static final String CLOSED_EVENT = "closed";
 
-    private AppShutdownJob appShutdownJob = new AppShutdownJob(Jenkins.getInstance());
+    private Job appShutdownJob = AppShutdownJob.get(Jenkins.getInstance());
 
     public boolean supports(GHEventPayload.PullRequest pullRequest) {
         return supports(pullRequest.getAction());
@@ -38,7 +39,7 @@ public class ReviewAppHandler {
         LOGGER.info("Shutting down {}", reviewAppId);
         ParameterizedJobMixIn
             .scheduleBuild2(
-                appShutdownJob.get(),
+                appShutdownJob,
                 0,
                 new ParametersAction(
                         new StringParameterValue("reviewAppName", reviewAppId)
