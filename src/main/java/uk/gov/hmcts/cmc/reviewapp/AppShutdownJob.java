@@ -22,10 +22,8 @@ public class AppShutdownJob {
                 .ofNullable(System.getenv(SHUTDOWN_JOB_VARIABLE_NAME))
                 .orElse(SHUTDOWN_JOB_DEFAULT_NAME);
 
-        return Optional.ofNullable(
-                jenkins.getItemByFullName(shutdownJobName, Job.class)
-        ).orElseThrow(
-                () -> new IllegalStateException("Cannot find job: " + shutdownJobName)
-        );
+        return Optional
+            .ofNullable(jenkins.getItemByFullName(shutdownJobName, Job.class))
+            .orElseThrow(() -> new IllegalStateException("Cannot find job: " + shutdownJobName));
     }
 }
