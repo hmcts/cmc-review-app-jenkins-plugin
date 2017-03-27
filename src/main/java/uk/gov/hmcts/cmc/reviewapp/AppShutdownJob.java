@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class AppShutdownJob {
 
-    private static final String SHUTDOWN_JOB_VARIABLE_NAME = "CMC_REVIEW_APP_SHUTDOWN_JOB_NAME";
+    private static final String SHUTDOWN_JOB_ENV_VARIABLE_NAME = "CMC_REVIEW_APP_SHUTDOWN_JOB_NAME";
     private static final String SHUTDOWN_JOB_DEFAULT_NAME = "cmc/review-app-pulveriser/master";
 
     private Jenkins jenkins;
@@ -19,7 +19,7 @@ public class AppShutdownJob {
     public Job get() {
         String shutdownJobName =
             Optional
-                .ofNullable(System.getenv(SHUTDOWN_JOB_VARIABLE_NAME))
+                .ofNullable(System.getenv(SHUTDOWN_JOB_ENV_VARIABLE_NAME))
                 .orElse(SHUTDOWN_JOB_DEFAULT_NAME);
 
         return Optional
