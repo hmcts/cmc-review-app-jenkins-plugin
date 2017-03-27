@@ -8,6 +8,7 @@ import jenkins.model.ParameterizedJobMixIn;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.hmcts.cmc.reviewapp.utils.AppShutdownJob;
 import uk.gov.hmcts.cmc.reviewapp.utils.ReviewAppHelper;
 
 public class ReviewAppHandler {

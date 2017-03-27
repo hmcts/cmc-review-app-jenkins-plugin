@@ -1,4 +1,4 @@
-package uk.gov.hmcts.cmc.reviewapp;
+package uk.gov.hmcts.cmc.reviewapp.utils;
 
 import hudson.model.Job;
 import jenkins.model.Jenkins;
