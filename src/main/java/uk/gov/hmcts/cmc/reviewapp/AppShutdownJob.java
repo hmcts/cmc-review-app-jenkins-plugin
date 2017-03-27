@@ -26,7 +26,6 @@ public class AppShutdownJob {
     }
 
     private String shutdownJobName() {
-        System.out.println(System.getenv());
         String shutdownJobName = System.getenv(SHUTDOWN_JOB_VARIABLE_NAME);
         if (shutdownJobName == null || shutdownJobName.isEmpty()) {
             return SHUTDOWN_JOB_DEFAULT_NAME;
