@@ -3,11 +3,9 @@ package uk.gov.hmcts.cmc.reviewapp;
 import com.cloudbees.jenkins.GitHubPushTrigger;
 import hudson.Extension;
 import hudson.model.Item;
-
 import hudson.security.ACL;
-import org.jenkinsci.plugins.github.extension.GHSubscriberEvent;
 import org.jenkinsci.plugins.github.extension.GHEventsSubscriber;
-import org.jenkinsci.plugins.github.webhook.subscriber.DefaultPushGHEventSubscriber;
+import org.jenkinsci.plugins.github.extension.GHSubscriberEvent;
 import org.kohsuke.github.GHEvent;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
@@ -21,16 +19,14 @@ import static org.kohsuke.github.GHEvent.PULL_REQUEST;
 import static uk.gov.hmcts.cmc.reviewapp.utils.PayloadParser.parse;
 
 /**
- * By default this plugin interested in push events only when job uses {@link GitHubPushTrigger}
+ * Subscribes to the PULL_REQUEST event specifically the 'closed' action on the event
  *
- * @author lanwen (Merkushev Kirill)
- * @since 1.12.0
  */
 @Extension
 @SuppressWarnings("unused")
 public class ReviewAppEventSubscriber extends GHEventsSubscriber {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPushGHEventSubscriber.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReviewAppEventSubscriber.class);
 
     private ReviewAppHandler handler = new ReviewAppHandler();
 
