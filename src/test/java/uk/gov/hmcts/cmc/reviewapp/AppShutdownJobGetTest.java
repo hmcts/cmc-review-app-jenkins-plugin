@@ -11,6 +11,7 @@ import uk.gov.hmcts.cmc.reviewapp.utils.AppShutdownJob;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,13 +24,13 @@ public class AppShutdownJobGetTest {
 
     @Test
     public void shouldReturnTheJobIfItsFound() {
-        when(jenkins.getItemByFullName(anyString())).thenReturn(job);
+        when(jenkins.getItemByFullName(anyString(), eq(Job.class))).thenReturn(job);
         assertThat(AppShutdownJob.get(jenkins)).isEqualTo(job);
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldThrowIllegalStateWhenJobIsNotFound() {
-        when(jenkins.getItemByFullName(anyString())).thenReturn(null);
+        when(jenkins.getItemByFullName(anyString(), eq(Job.class))).thenReturn(null);
         AppShutdownJob.get(jenkins);
     }
 
