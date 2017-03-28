@@ -1,0 +1,10 @@
+classes
+out
+*.ipr
+*.iml
+*.iws
+
+.idea
+target/
+.gradletasknamecache
+work/
