@@ -11,7 +11,7 @@
   </parent>
   <groupId>uk.gov.hmcts.jenkins.plugins</groupId>
   <artifactId>review-app</artifactId>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <packaging>hpi</packaging>
 
   <properties>
@@ -29,8 +29,8 @@
   </properties>
 
   <name>Review App</name>
-  <description>Review app related things</description>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
+  <description>Interacts with review applications</description>
+  <url>http://git.reform/cmc/review-app-jenkins-plugin</url>
 
   <dependencies>
     <dependency>
