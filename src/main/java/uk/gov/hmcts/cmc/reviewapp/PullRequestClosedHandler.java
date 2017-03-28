@@ -30,7 +30,7 @@ public class PullRequestClosedHandler {
                 new ParametersAction(
                         new StringParameterValue("reviewAppName", reviewAppId)
                 )
-            );
+        );
     }
 
 }

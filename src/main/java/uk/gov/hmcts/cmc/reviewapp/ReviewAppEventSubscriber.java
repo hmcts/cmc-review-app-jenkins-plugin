@@ -20,7 +20,7 @@ import static org.kohsuke.github.GHEvent.PULL_REQUEST;
 import static uk.gov.hmcts.cmc.reviewapp.utils.PayloadParser.parse;
 
 /**
- * Subscribes to the PULL_REQUEST event specifically the 'closed' action on the event
+ * Subscribes to the PULL_REQUEST event, specifically the 'closed' action on the event.
  *
  */
 @Extension
@@ -42,7 +42,7 @@ public class ReviewAppEventSubscriber extends GHEventsSubscriber {
     }
 
     /**
-     * Calls {@link GitHubPushTrigger} in all projects to handle this hook
+     * Calls {@link GitHubPushTrigger} in all projects to handle this hook.
      *
      * @param event only PUSH event
      */
