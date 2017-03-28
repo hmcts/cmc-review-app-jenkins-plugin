@@ -15,6 +15,10 @@ node {
       sh "./mvnw compile"
     }
 
+    stage('Lint') {
+      sh "./mvnw checkstyle:check"
+    }
+
     stage('Test (Unit)') {
       sh "./mvnw test"
     }
