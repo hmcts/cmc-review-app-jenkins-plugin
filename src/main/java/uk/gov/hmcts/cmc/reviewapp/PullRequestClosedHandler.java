@@ -28,7 +28,7 @@ public class PullRequestClosedHandler {
                 appShutdownJob,
                 0,
                 new ParametersAction(
-                        new StringParameterValue("reviewAppName", reviewAppId)
+                        new StringParameterValue("reviewAppId", reviewAppId)
                 )
         );
     }
