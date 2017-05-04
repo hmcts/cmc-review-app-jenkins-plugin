@@ -30,7 +30,7 @@
 
   <name>Review App</name>
   <description>Interacts with review applications</description>
-  <url>http://git.reform/cmc/review-app-jenkins-plugin</url>
+  <url>http://git.reform.hmcts.net/cmc/review-app-jenkins-plugin</url>
 
   <dependencies>
     <dependency>

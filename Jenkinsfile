@@ -1,6 +1,6 @@
 #!groovy
 properties(
-  [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform/cmc/review-app-jenkins-plugin/'],
+  [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform.hmcts.net/cmc/review-app-jenkins-plugin/'],
    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
